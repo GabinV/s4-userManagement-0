@@ -13,7 +13,7 @@ $bdd = OuvrirConnexion($session, $usr, $mdp);
         <li><a href="show.php">Voir les roles</a></li>
         <li><a href="adds.php">Ajout</a></li>
         <li><a href="updates.php">Mise à jour</a></li>
-		<li><a href="effacer.php">Effacer</a></li>
+		<li><a href="delete.php">Effacer</a></li>
         </ul>
 <br/><br/><br/>
 <center>

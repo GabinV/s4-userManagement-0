@@ -6,6 +6,7 @@ $bdd = OuvrirConnexion($session, $usr, $mdp);
 <html>
 <head><TITLE>test</TITLE>
 	<meta charset="utf-8">
+	<script type="text/javascript" src="delete.js"></script>
 </head>
 <body>
  <ul class="dropdown-menu">
@@ -30,21 +31,31 @@ echo'<input class="btn btn-default" type="button" name="desc" value="Ordre"/>';
 	 
     $tab = $bdd->query($sql,PDO::FETCH_ASSOC);
 	echo '<table border="1">';
-	echo '<tr> <td> IDENTIFIANT</td><td> NOM</td></tr>';
+	echo '<tr> <td> IDENTIFIANT</td><td> NOM</td><td>Supprimer</td></tr>';
 	foreach($tab as $utilisateur){
 		
           echo "<tr>
                   <td>",$utilisateur['id'],"</td>
                   <td>",$utilisateur['name'],"</td>
+				  <td><input class='btn btn-default' type='submit' name='supprimer_",$utilisateur['id'],"' value='Supprimer' id='val' onClick=\"getname(this)\"/></td>
                 </tr>";
           }
 		    echo '</table>';
   }
   
-  if (isset($_POST['desc'])) :
-    $bdd->exec('select id, name from role order by id desc');
-    echo "<meta http-equiv='refresh' content='0; url='" . $_SERVER['PHP_SELF'] . "'>";
-	endif;
+?>
+<input type="checkbox" name="hidd" id="hid" value="" hidden>
+<?php 
+if(isset($_POST['hidd'])){
+	$explode = explode("_",$_POST['hidd']);
+    $id_user = $explode[1];
+	echo $id_user;
+	if($explode[0] == "supprimer"){
+		$sql = "DELETE FROM role where id not in(select id from user where id= " .$id_user. ")";
+		$bdd->exec($sql);
+		echo "<meta http-equiv='refresh' content='0; url='" . $_SERVER['PHP_SELF'] . "'>";
+	}
+}
 ?>
 </form>	
 </center>
